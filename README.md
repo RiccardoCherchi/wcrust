@@ -16,7 +16,7 @@ This is a list of command examples
 ./wcrust file1.txt file2.txt -L
 ```
 
-for the porpouse of the flags i refer you to the official (man page)[https://man7.org/linux/man-pages/man1/wc.1p.html] of `wc` 
+for the porpouse of the flags i refer you to the official [man page](https://man7.org/linux/man-pages/man1/wc.1p.html) of `wc` 
 
 pull request are kindly accepted☺️
 
