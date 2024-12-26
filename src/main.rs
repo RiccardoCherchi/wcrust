@@ -25,6 +25,18 @@ pub const EMPTY_FILE_RESULTS: FileResults = FileResults {
 };
 
 fn main() {
+    // let args_vec = env::args().collect::<Vec<_>>();
+    // let mut files: Vec<String> = vec![];
+    // if args_vec.len() > 1 {
+    //     files.append(&mut files::get_files(&args_vec));
+    // }
+    // // let mut buff = String::new();
+    // match fs::read_to_string(files[0].clone()) {
+    //     Ok(f) => return,
+    //     Err(err) => print!("err: {}", err),
+    // };
+
+    // return;
     let args_vec = env::args().collect::<Vec<_>>();
     let mut args_config: config::ArgumentsConfig = config::EMPTY_ARGUMENTS_CONFIG;
     if args_vec.len() > 1 {
@@ -37,8 +49,10 @@ fn main() {
     }
 
     let mut files: Vec<String> = vec![];
+    let mut files_lenght = 0;
     if args_vec.len() > 1 {
         files.append(&mut files::get_files(&args_vec));
+        files_lenght = files.len();
     }
 
     if files.is_empty() {
@@ -68,7 +82,7 @@ fn main() {
                 }
             };
         }
-        if tot_file_res != EMPTY_FILE_RESULTS {
+        if tot_file_res != EMPTY_FILE_RESULTS && files_lenght > 1 {
             print_total(tot_file_res, &args_config);
         }
     }
@@ -81,22 +95,22 @@ fn print_result(
 ) -> Option<FileResults> {
     let mut file_result = EMPTY_FILE_RESULTS;
     if args_config.display_lines {
-        file_result.total_lines = counters::get_lines(input.clone());
+        file_result.total_lines = counters::get_lines(&input);
         print!("       {}", file_result.total_lines);
     }
 
     if args_config.display_words {
-        file_result.total_words = counters::get_words(input.clone());
+        file_result.total_words = counters::get_words(&input);
         print!("      {}", file_result.total_words);
     }
 
     if args_config.display_characters {
-        file_result.total_chars = counters::get_char(input.clone());
+        file_result.total_chars = counters::get_char(&input);
         print!("      {}", file_result.total_chars);
     }
 
     if args_config.display_most_chars_argument {
-        file_result.most_chars_line = counters::get_most_char_line(input.clone());
+        file_result.most_chars_line = counters::get_most_char_line(&input);
         print!("      {}", file_result.most_chars_line);
     }
     if let Some(file) = file_name {

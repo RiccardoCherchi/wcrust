@@ -1,28 +1,17 @@
-use regex::Regex;
+use rayon::{iter::ParallelIterator, str::ParallelString};
 
-pub fn get_char(inp: String) -> usize {
-    return inp.len();
+pub fn get_char(inp: &String) -> usize {
+    return inp.par_chars().count();
 }
 
-pub fn get_lines(inp: String) -> usize {
-    return inp.split("\n").collect::<Vec<_>>().len() - 1;
+pub fn get_lines(inp: &String) -> usize {
+    return inp.par_lines().count();
 }
 
-pub fn get_words(inp: String) -> usize {
-    let re = Regex::new(r"\s+").unwrap();
-    let formatted = re.replace_all(inp.as_str(), " ");
-
-    return formatted
-        .replace("\n", " ")
-        .split(" ")
-        .collect::<Vec<_>>()
-        .len();
+pub fn get_words(inp: &String) -> usize {
+    return inp.par_split_whitespace().count();
 }
 
-pub fn get_most_char_line(inp: String) -> usize {
-    let lines_vec = inp.split("\n").collect::<Vec<_>>();
-    let mut lines_lens = lines_vec.iter().map(|&x| x.len()).collect::<Vec<_>>();
-    lines_lens.sort();
-    lines_lens.reverse();
-    return lines_lens[0];
+pub fn get_most_char_line(inp: &String) -> usize {
+    return inp.par_lines().map(|line| line.len()).max().unwrap_or(0);
 }
